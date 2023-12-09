@@ -6,11 +6,11 @@ import csv
 # import numpy as np
 
 from model.keypoint_classifier import KeyPointClassifier
-from HandTrackingModule import HandDetector
-
+from HandTrackingModule import HandDetector, draw_hand, find_distance
+from control import Speaker
 
 cap_device = 0
-cap_height = 600
+cap_height = 900
 cap_width = cap_height * 1.618
 
 vol_change = False
@@ -26,6 +26,8 @@ with open('model/keypoint_classifier_label.csv',
 
 def main():
     global vol_change
+    # Sound Control initiation #############################################
+    volume = Speaker()
     # Camera preparation ###############################################################
     cap = cv.VideoCapture(cap_device)
     cap.set(cv.CAP_PROP_FRAME_WIDTH, cap_width)
@@ -66,19 +68,24 @@ def main():
                 print(hand_sign_id, keypoint_classifier_labels[hand_sign_id])
 
                 # draw part
-
+                draw_hand(debug_image, left_hand[0], keypoint_classifier_labels[hand_sign_id])
                 # #######################################
                 # control part
                 # TODO: switching depend on left hand_sign_id
-                if hand_sign_id == 0:    # start sign
-                    vol_change = True
-                if hand_sign_id == 1:   # stop sign
-                    vol_change = False
+                if hand_sign_id == 0:    # if "start" sign
+                    vol_change = True   # enable volume change
+                if hand_sign_id == 1:   # if "stop" sign
+                    vol_change = False  # disable volume change
 
-                # control sound
-                if vol_change:
-                    ...
-                # ##############################################
+            # control sound
+            if vol_change and len(right_hand):
+                right_hand_lm = right_hand[0]["lmList"]
+                right_hand_border = right_hand[0]["bbox"]
+
+                distance, debug_image = find_distance(right_hand_lm[4], right_hand_lm[8], right_hand_border, debug_image)
+                vol = volume(distance)
+                print(round(distance, 4), ":", vol)
+            # ##############################################
 
         cv.imshow('Hand Gesture Recognition', debug_image)
 

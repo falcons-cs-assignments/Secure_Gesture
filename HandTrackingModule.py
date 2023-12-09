@@ -39,11 +39,142 @@ def calc_bounding_rect(image, landmarks):
     return [x, y, x + w, y + h]
 
 
+def draw_bounding_rect(image, brect, use_brect=True):
+    if use_brect:
+        # Outer rectangle
+        cv.rectangle(image, (brect[0], brect[1]), (brect[2], brect[3]),
+                     (0, 0, 0), 1)
+
+    return image
+
+
+def draw_info_text(image, brect, handedness, hand_sign_text=""):
+    cv.rectangle(image, (brect[0], brect[1]), (brect[2], brect[1] - 22),
+                 (0, 0, 0), -1)
+
+    info_text = handedness
+    if hand_sign_text != "":
+        info_text = info_text + ':' + hand_sign_text
+    cv.putText(image, info_text, (brect[0] + 5, brect[1] - 4),
+               cv.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv.LINE_AA)
+    return image
+
+
+def draw_landmarks(image, landmark_point):
+    if len(landmark_point) > 0:
+        # Thumb
+        cv.line(image, tuple(landmark_point[2]), tuple(landmark_point[3]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[2]), tuple(landmark_point[3]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[3]), tuple(landmark_point[4]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[3]), tuple(landmark_point[4]),
+                (255, 255, 255), 2)
+
+        # Index finger
+        cv.line(image, tuple(landmark_point[5]), tuple(landmark_point[6]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[5]), tuple(landmark_point[6]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[6]), tuple(landmark_point[7]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[6]), tuple(landmark_point[7]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[7]), tuple(landmark_point[8]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[7]), tuple(landmark_point[8]),
+                (255, 255, 255), 2)
+
+        # Middle finger
+        cv.line(image, tuple(landmark_point[9]), tuple(landmark_point[10]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[9]), tuple(landmark_point[10]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[10]), tuple(landmark_point[11]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[10]), tuple(landmark_point[11]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[11]), tuple(landmark_point[12]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[11]), tuple(landmark_point[12]),
+                (255, 255, 255), 2)
+
+        # Ring finger
+        cv.line(image, tuple(landmark_point[13]), tuple(landmark_point[14]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[13]), tuple(landmark_point[14]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[14]), tuple(landmark_point[15]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[14]), tuple(landmark_point[15]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[15]), tuple(landmark_point[16]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[15]), tuple(landmark_point[16]),
+                (255, 255, 255), 2)
+
+        # Little finger
+        cv.line(image, tuple(landmark_point[17]), tuple(landmark_point[18]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[17]), tuple(landmark_point[18]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[18]), tuple(landmark_point[19]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[18]), tuple(landmark_point[19]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[19]), tuple(landmark_point[20]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[19]), tuple(landmark_point[20]),
+                (255, 255, 255), 2)
+
+        # Palm
+        cv.line(image, tuple(landmark_point[0]), tuple(landmark_point[1]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[0]), tuple(landmark_point[1]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[1]), tuple(landmark_point[2]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[1]), tuple(landmark_point[2]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[2]), tuple(landmark_point[5]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[2]), tuple(landmark_point[5]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[5]), tuple(landmark_point[9]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[5]), tuple(landmark_point[9]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[9]), tuple(landmark_point[13]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[9]), tuple(landmark_point[13]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[13]), tuple(landmark_point[17]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[13]), tuple(landmark_point[17]),
+                (255, 255, 255), 2)
+        cv.line(image, tuple(landmark_point[17]), tuple(landmark_point[0]),
+                (0, 0, 0), 6)
+        cv.line(image, tuple(landmark_point[17]), tuple(landmark_point[0]),
+                (255, 255, 255), 2)
+
+    # Key Points
+    for index, landmark in enumerate(landmark_point):
+        if index in [4, 8, 12, 16, 20]:
+            cv.circle(image, (landmark[0], landmark[1]), 8, (255, 255, 255), -1)
+            cv.circle(image, (landmark[0], landmark[1]), 8, (0, 0, 0), 1)
+        else:
+            cv.circle(image, (landmark[0], landmark[1]), 5, (255, 255, 255), -1)
+            cv.circle(image, (landmark[0], landmark[1]), 5, (0, 0, 0), 1)
+
+    return image
+
+
 class HandDetector:
     def __init__(self, mode=False, max_hands=2, model_complexity=1, detection_con=0.7, tracking_con=0.5):
 
         self.use_static_image_mode = mode
-        self.maxHands = max_hands  
+        self.maxHands = max_hands
         self.model_complexity = model_complexity
         self.min_detection_confidence = detection_con
         self.min_tracking_confidence = tracking_con
@@ -77,19 +208,32 @@ class HandDetector:
             return None
         return all_hands
 
-    def findDistance(self, p1, p2, img=None, color=(255, 0, 255), scale=5):
-        x1, y1 = p1
-        x2, y2 = p2
-        cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
-        length = math.hypot(x2 - x1, y2 - y1)
-        info = (x1, y1, x2, y2, cx, cy)
-        if img is not None:
-            cv.circle(img, (x1, y1), scale, color, cv.FILLED)
-            cv.circle(img, (x2, y2), scale, color, cv.FILLED)
-            cv.line(img, (x1, y1), (x2, y2), color, max(1, scale // 3))
-            cv.circle(img, (cx, cy), scale, color, cv.FILLED)
 
-        return length, info, img
+def find_distance(p1, p2, hand_border, img=None, color=(255, 0, 255), scale=5):
+    # TODO: solve the problem of distance from the camera
+    border_rad = math.hypot(hand_border[0] - hand_border[2], hand_border[1] - hand_border[3])
+
+    x1, y1 = p1
+    x2, y2 = p2
+    cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+    length = math.hypot(x2 - x1, y2 - y1)
+    ratio = length / border_rad
+    # info = (x1, y1, x2, y2, cx, cy)
+    if img is not None:
+        cv.circle(img, (x1, y1), scale, color, cv.FILLED)
+        cv.circle(img, (x2, y2), scale, color, cv.FILLED)
+        cv.line(img, (x1, y1), (x2, y2), color, max(1, scale // 3))
+        cv.circle(img, (cx, cy), scale, color, cv.FILLED)
+
+    return ratio, img    #, info
+
+
+def draw_hand(img, hand, label):
+    brect = hand["bbox"]
+    img = draw_bounding_rect(img, brect)
+    img = draw_landmarks(img, hand["lmList"])
+    img = draw_info_text(img, brect, hand["type"], label)
+    return img
 
 
 def main():
