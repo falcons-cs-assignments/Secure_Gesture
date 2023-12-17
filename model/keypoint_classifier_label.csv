@@ -1,4 +1,8 @@
-﻿Start
-ok
-open
-close
+﻿quit
+open_app
+start
+lock
+draw
+select
+pen
+terminate

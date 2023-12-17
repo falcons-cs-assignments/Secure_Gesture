@@ -96,13 +96,14 @@ def pre_process_landmark(landmark_list):
     temp_landmark_list = copy.deepcopy(landmark_list)
 
     # Convert to relative coordinates
-    base_x, base_y = 0, 0
+    base_x, base_y, base_z = 0, 0, 0
     for index, landmark_point in enumerate(temp_landmark_list):
         if index == 0:
-            base_x, base_y = landmark_point[0], landmark_point[1]
+            base_x, base_y, base_z = landmark_point[0], landmark_point[1], landmark_point[2]
 
         temp_landmark_list[index][0] = temp_landmark_list[index][0] - base_x
         temp_landmark_list[index][1] = temp_landmark_list[index][1] - base_y
+        temp_landmark_list[index][2] = temp_landmark_list[index][2] - base_z
 
     # Convert to a one-dimensional list
     temp_landmark_list = list(
@@ -111,10 +112,12 @@ def pre_process_landmark(landmark_list):
     # Normalization
     max_value = max(list(map(abs, temp_landmark_list)))
 
-    def normalize_(n):
-        return n / max_value
+    def normalize_(i, n):
+        if (i + 1) % 3:    # don't normalize the z_coordinate
+            return n / max_value
+        return n
 
-    temp_landmark_list = list(map(normalize_, temp_landmark_list))
+    temp_landmark_list = list(map(normalize_, range(len(temp_landmark_list)), temp_landmark_list))
 
     return temp_landmark_list
 
