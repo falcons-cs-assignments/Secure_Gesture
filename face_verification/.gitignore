@@ -1,0 +1,8 @@
+lfw.tgz
+lfw
+data
+app_data
+*.h5
+training_checkpoints
+model.png
+__pycache__
