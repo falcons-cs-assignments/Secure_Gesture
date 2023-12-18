@@ -1,2 +1,1 @@
-# DIP_faceRecognition_and_handTracking
-DIP Assignment using face recognition and hand tracking
+## Secure_Gesture: Facial Verification-Enabled Hand Gesture Control for Laptop Operations
