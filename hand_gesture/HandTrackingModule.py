@@ -113,6 +113,7 @@ class HandDetector:
         #
         return rightHand, leftHand
 
+
 def find_distance(p1, p2, hand_border, img=None, color=(255, 0, 255), scale=5):
     """
     :p1 & p2: should be (x, y)
