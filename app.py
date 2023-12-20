@@ -4,6 +4,8 @@ import itertools
 import csv
 import multiprocessing
 
+from face_verification.verification import verification
+
 from hand_gesture.model.keypoint_classifier import KeyPointClassifier
 from hand_gesture.HandTrackingModule import HandDetector, draw_hand, find_distance, calc_bounding_rect
 from hand_gesture.control import Speaker, Painter, take_screenshot, open_application
@@ -26,7 +28,7 @@ termination = False
 quit = True
 
 hand_flag = False
-verified = True
+verified = False
 # #################################################################
 
 # Read labels ###########################################################
@@ -56,6 +58,7 @@ def main():
     mp_model = HandDetector()
     keypoint_classifier = KeyPointClassifier('hand_gesture/model/keypoint_classifier.tflite')
 
+    verifier = verification('face_verification/')
     painter = Painter(height, width, folder_path="hand_gesture/Header")
 
     #  ####################################################################
@@ -73,11 +76,11 @@ def main():
         debug_image = copy.deepcopy(image)
         # verification
         if not verified:
-            cv.putText(debug_image, "Verified", (int(width * 0.02), int(height * 0.08)), cv.FONT_HERSHEY_COMPLEX,
+            verified = verifier.verify(debug_image)
+            if not verified:
+                cv.putText(debug_image, "NOT Verified", (int(width * 0.02), int(height * 0.08)), cv.FONT_HERSHEY_COMPLEX,
                        1, (0, 0, 255), 2, cv.LINE_AA)
-            # verified = verify(image)
-
-        if verified:
+        else:
             # Detection #############################################################
             right_hand, left_hand = mp_model.find_hands(image)
 
