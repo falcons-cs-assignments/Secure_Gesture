@@ -3,6 +3,6 @@ open_app
 start
 lock
 draw
-select
 pen
 terminate
+Unknown
