@@ -175,11 +175,11 @@ class Painter:
 
         return img
 
-    def drawing(self, img, x1, y1, hand_flag):
+    def drawing(self, img, x1, y1):
         cv.circle(img, (x1, y1), 5, self.drawColor, cv.FILLED)
         # print("Drawing Mode")
-        if hand_flag:
-            self.xp, self.yp = 0, 0
+        # if hand_flag:
+        #     self.xp, self.yp = 0, 0
         if self.xp == 0 and self.yp == 0:
             self.xp, self.yp = x1, y1
 
