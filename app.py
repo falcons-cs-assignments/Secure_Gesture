@@ -22,12 +22,6 @@ application_process = None
 # FLAGS ###########################################################
 vol_change = False
 drawing_mode = False
-selection = False
-pen = False
-termination = False
-quit = True
-
-hand_flag = False
 verified = False
 # #################################################################
 
@@ -40,8 +34,8 @@ with open('hand_gesture/model/keypoint_classifier_label.csv',
 
 def main():
     print(keypoint_classifier_labels)
-    global screenshot_process, application_process, verified
-    global vol_change, drawing_mode, selection, pen, quit, termination, hand_flag
+    global screenshot_process, application_process
+    global vol_change, drawing_mode, verified
 
     # Sound Control initiation #############################################
     volume = Speaker()
@@ -124,8 +118,7 @@ def main():
                         debug_image = painter.selection(debug_image, x1, y1)
 
                     if hand_sign_id == keypoint_classifier_labels.index('pen'):  # draw
-                        debug_image = painter.drawing(debug_image, x1, y1, hand_flag)
-                        hand_flag = False
+                        debug_image = painter.drawing(debug_image, x1, y1)
 
                     if hand_sign_id == keypoint_classifier_labels.index('close'):  # go to control mode
                         drawing_mode = False

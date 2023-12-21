@@ -30,12 +30,14 @@ class verification:
             ypred = self.facenet.embeddings(img)
             face_name = self.model.predict(ypred)
             final_name = self.encoder.inverse_transform(face_name)[0]
-            if draw:
-                cv.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 255), 10)
-                cv.putText(frame, str(final_name), (x, y - 10), cv.FONT_HERSHEY_SIMPLEX,
-                           1, (0, 0, 255), 3, cv.LINE_AA)
-
             if final_name == "others":
+                final_name = "Unknown"
+            if draw:
+                cv.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 255), 2)
+                cv.putText(frame, str(final_name), (x, y - 10), cv.FONT_HERSHEY_SIMPLEX,
+                           1, (0, 0, 255), 2, cv.LINE_AA)
+
+            if final_name == "Unknown":
                 return False
             else:
                 return True
