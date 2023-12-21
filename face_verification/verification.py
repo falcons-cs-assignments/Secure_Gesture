@@ -1,10 +1,8 @@
-# face recognition part II
-# IMPORT
 import cv2 as cv
 import numpy as np
 import os
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'   # Suppress Tensorflow logging messages
 from sklearn.preprocessing import LabelEncoder
 import pickle
 from keras_facenet import FaceNet
@@ -12,7 +10,6 @@ from keras_facenet import FaceNet
 
 class verification:
     def __init__(self, path='./'):
-        # INITIALIZE
         self.facenet = FaceNet()
         self.faces_embeddings = np.load(path + "faces_embeddings_done_4classes.npz")
         Y = self.faces_embeddings['arr_1']
@@ -43,10 +40,8 @@ class verification:
             else:
                 return True
 
-    def work(self):
+    def rea_time_verify(self):
         cap = cv.VideoCapture(0)
-        # WHILE LOOP
-
         while cap.isOpened():
             _, frame = cap.read()
             frame = cv.flip(frame, 1)
@@ -65,10 +60,16 @@ class verification:
                            1, (0, 0, 255), 3, cv.LINE_AA)
 
             cv.imshow("Face Recognition:", frame)
-            # if cv.waitKey(1) & ord('q') ==27:
+
             key = cv.waitKey(1)
-            if key == 27:  # ord('q'):
+            if key == 27:  # Esc
                 break
 
         cap.release()
         cv.destroyAllWindows
+
+
+if __name__ == "__main__":
+    verifier = verification()
+    verifier.rea_time_verify()
+    
